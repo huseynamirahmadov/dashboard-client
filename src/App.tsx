@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Chart from './pages/Chart';
 import Calendar from './pages/Calendar';
 import Trades from './pages/Trades';
+import TradeDetail from './pages/TradeDetail';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/trades" element={<Trades />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/trades/:tradeId" element={<TradeDetail />} />
         </Routes>
       </MainLayout>
     </Router>
