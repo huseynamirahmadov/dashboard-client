@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom"
 import NavLogo from '../assets/img/no-bg-main-logo.png'
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
     <header className="bg-blue-500">
       <nav className="flex items-center justify-between container mx-auto">
