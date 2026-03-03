@@ -1,7 +1,8 @@
 // Re-export all types and interfaces from specialized type files
 
 // Trade Types
-export type { TradeData, TradeCardProps, TradeDirection, TradeStatus } from './trade.types';
+export type { TradeData, TradeDirection, TradeStatus } from './trade.types';
+export type { TradeCardProps } from './trade.types'; // onDelete & onEdit optional olmalıdır
 
 // API Types
 export type { ApiResponse, PaginatedResponse } from './api.types';

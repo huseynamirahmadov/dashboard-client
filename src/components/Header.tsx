@@ -13,8 +13,8 @@ const Header: React.FC = () => {
         <div>
           <ul className="flex gap-5 text-xl text-white">
             <li className="hover:underline"><NavLink to='/dashboard'>Dashboard</NavLink></li>
-            <li className="hover:underline"><NavLink to='/calendar'>Calendar</NavLink></li>
             <li className="hover:underline"><NavLink to='/trades'>Trades</NavLink></li>
+            <li className="hover:underline"><NavLink to='/calendar'>Calendar</NavLink></li>
             <li className="hover:underline"><NavLink to='/settings'>Settings</NavLink></li>
           </ul>
         </div>
