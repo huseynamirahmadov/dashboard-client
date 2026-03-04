@@ -116,7 +116,7 @@ const TradeDetail: React.FC = () => {
         </div>
         <div className="space-y-1">
           <span className="font-bold block text-slate-400 uppercase text-[10px] tracking-widest">Status</span> 
-          <p className="text-slate-700 font-medium text-base font-bold">{trade.status}</p>
+          <p className="text-slate-700 font-medium text-base">{trade.status}</p>
         </div>
         <div className="space-y-1">
           <span className="font-bold block text-slate-400 uppercase text-[10px] tracking-widest">Risk</span> 

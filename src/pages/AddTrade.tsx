@@ -30,6 +30,7 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
   const [fileInputs, setFileInputs] = useState<(File | null)[]>([null]);
 
   const inputStyle = "w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none bg-white text-sm cursor-pointer transition-all";
+  const labelStyle = "block text-xs font-bold text-slate-400 mb-1 uppercase"; // Label üçün stil
 
   useEffect(() => {
     if (editTrade) {
@@ -105,15 +106,15 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div>
-               <label className="block text-xs font-bold text-slate-400 mb-1 uppercase">Symbol</label>
-               <input name="symbol" value={formData.symbol} onChange={handleChange} className={inputStyle} placeholder="e.g. BTCUSDT" required />
+               <label className={labelStyle}>Symbol</label>
+               <input name="symbol" value={formData.symbol} onChange={handleChange} className={inputStyle} placeholder="e.g. NQH26" required />
             </div>
             <div>
-               <label className="block text-xs font-bold text-slate-400 mb-1 uppercase">Date</label>
+               <label className={labelStyle}>Date</label>
                <input type="date" name="date" value={formData.date} onChange={handleChange} className={inputStyle} />
             </div>
             <div>
-               <label className="block text-xs font-bold text-slate-400 mb-1 uppercase">Direction</label>
+               <label className={labelStyle}>Direction</label>
                <select name="direction" value={formData.direction} onChange={handleChange} className={inputStyle}>
                  <option value="Long">Long</option>
                  <option value="Short">Short</option>
@@ -122,25 +123,51 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-sm">
-            <input type="number" name="durationSeconds" value={formData.durationSeconds} onChange={handleChange} className={inputStyle} placeholder="Duration (sec)" />
-            <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} className={inputStyle} placeholder="Quantity" />
-            <input type="number" name="risk" value={formData.risk} onChange={handleChange} className={inputStyle} placeholder="Risk ($)" />
-            <input type="number" name="riskReward" value={formData.riskReward} onChange={handleChange} className={inputStyle} placeholder="Risk Reward" />
-            <input type="number" name="range" value={formData.range} onChange={handleChange} className={inputStyle} placeholder="Range" />
-            <input type="number" name="pnl" value={formData.pnl} onChange={handleChange} className={inputStyle} placeholder="PNL ($)" />
-            <input type="number" step="0.01" name="fee" value={formData.fee} onChange={handleChange} className={inputStyle} placeholder="Fee ($)" />
-            <select name="status" value={formData.status} onChange={handleChange} className={inputStyle}>
-              <option value="TP">TP</option>
-              <option value="SL">SL</option>
-              <option value="BE">BE</option>
-              <option value="MA">MA</option>
-            </select>
-            <select name="model" value={formData.model} onChange={handleChange} className={inputStyle}>
-              <option value="ARK">ARK</option>
-            </select>
+            <div>
+              <label className={labelStyle}>Duration (sec)</label>
+              <input type="number" name="durationSeconds" value={formData.durationSeconds} onChange={handleChange} className={inputStyle} placeholder="Duration (sec)" />
+            </div>
+            <div>
+              <label className={labelStyle}>Quantity</label>
+              <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} className={inputStyle} placeholder="Quantity" />
+            </div>
+            <div>
+              <label className={labelStyle}>Risk ($)</label>
+              <input type="number" name="risk" value={formData.risk} onChange={handleChange} className={inputStyle} placeholder="Risk ($)" />
+            </div>
+            <div>
+              <label className={labelStyle}>Risk Reward</label>
+              <input type="number" name="riskReward" value={formData.riskReward} onChange={handleChange} className={inputStyle} placeholder="Risk Reward" />
+            </div>
+            <div>
+              <label className={labelStyle}>Range</label>
+              <input type="number" name="range" value={formData.range} onChange={handleChange} className={inputStyle} placeholder="Range" />
+            </div>
+            <div>
+              <label className={labelStyle}>PNL ($)</label>
+              <input type="number" name="pnl" value={formData.pnl} onChange={handleChange} className={inputStyle} placeholder="PNL ($)" />
+            </div>
+            <div>
+              <label className={labelStyle}>Fee ($)</label>
+              <input type="number" step="0.01" name="fee" value={formData.fee} onChange={handleChange} className={inputStyle} placeholder="Fee ($)" />
+            </div>
+            <div>
+              <label className={labelStyle}>Status</label>
+              <select name="status" value={formData.status} onChange={handleChange} className={inputStyle}>
+                <option value="TP">TP</option>
+                <option value="SL">SL</option>
+                <option value="BE">BE</option>
+                <option value="MA">MA</option>
+              </select>
+            </div>
+            <div>
+              <label className={labelStyle}>Model</label>
+              <select name="model" value={formData.model} onChange={handleChange} className={inputStyle}>
+                <option value="ARK">ARK</option>
+              </select>
+            </div>
           </div>
 
-          {/* Profesional Screenshots Bölməsi */}
           <div className="mt-8 pt-6 border-t border-slate-100">
             <div className="flex justify-between items-center mb-5">
               <h3 className="font-extrabold text-slate-700 uppercase text-sm tracking-widest">Screenshots Analysis</h3>
@@ -151,7 +178,7 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {fileInputs.map((_, index) => (
-                <div key={index} className="flex flex-col p-4 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50 hover:border-indigo-300 transition-colors">
+                <div key={index} className="cursor-pointer flex flex-col p-4 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50 hover:border-indigo-300 transition-colors">
                   <span className="text-[10px] font-black text-slate-400 uppercase mb-2">Slot #{index + 1}</span>
                   <input 
                     type="file" 
@@ -166,7 +193,7 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
 
           <div className="flex gap-4 mt-8">
             <button type="button" onClick={onClose} className="flex-1 bg-slate-100 text-slate-600 py-4 rounded-xl font-bold hover:bg-slate-200 cursor-pointer transition-all">Cancel</button>
-            <button type="submit" className="flex-[2] bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-black cursor-pointer shadow-xl transition-all active:scale-[0.98]">
+            <button type="submit" className="flex-2 bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-black cursor-pointer shadow-xl transition-all active:scale-[0.98]">
               {editTrade ? "Update Trade Data" : "Save Trade Data"}
             </button>
           </div>
