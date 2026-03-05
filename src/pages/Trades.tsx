@@ -12,7 +12,7 @@ const TradesComponent: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedTrade, setSelectedTrade] = useState<TradeData | null>(null);
 
-  const API_BASE_URL = "https://dashboard-server-m86j.onrender.com";
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
   const fetchTrades = async () => {
     try {

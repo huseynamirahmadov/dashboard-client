@@ -11,7 +11,7 @@ interface Props {
 }
 
 const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUpdate }) => {
-  const API_BASE_URL = "https://dashboard-server-m86j.onrender.com";
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
   
   const initialState = {
     symbol: '',

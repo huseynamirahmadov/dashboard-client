@@ -13,7 +13,7 @@ const TradeDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
-  const API_BASE_URL = "https://dashboard-server-m86j.onrender.com";
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
   const fetchTradeDetails = () => {
     if (!tradeId) return;
