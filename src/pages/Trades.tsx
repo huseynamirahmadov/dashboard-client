@@ -5,6 +5,7 @@ import TradeCard from '../components/TradeCard';
 import axios from 'axios';
 import Loading from './Loading';
 import AddTrade from './AddTrade';
+import { useLocation, useNavigate } from 'react-router-dom'; // URL parametrləri üçün əlavə edildi
 
 const TradesComponent: React.FC = () => {
   const [trades, setTrades] = useState<TradeData[]>([]);
@@ -12,7 +13,13 @@ const TradesComponent: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedTrade, setSelectedTrade] = useState<TradeData | null>(null);
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+  // URL-dən tarixi tutmaq üçün hook-lar
+  const { search } = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(search);
+  const filterDate = queryParams.get('date');
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const fetchTrades = async () => {
     try {
@@ -31,13 +38,12 @@ const TradesComponent: React.FC = () => {
   }, []);
 
   const deleteTrade = async (id: number) => {
-    // Burada Azərbaycan dilində olan confirm və alert silsindi
     try {
       await axios.delete(`${API_BASE_URL}/api/trades/${id}`);
       fetchTrades();
     } catch (error) {
       console.error(error);
-      alert("Error deleting trade!"); // Mesajı ingilis dilinə çevirdim ki, struktur pozulmasın
+      alert("Error deleting trade!");
     }
   };
 
@@ -58,12 +64,25 @@ const TradesComponent: React.FC = () => {
     setIsModalOpen(true);
   };
 
+  // --- FİLTRLƏMƏ MƏNTİQİ ---
+  // Əgər URL-də date varsa, ancaq həmin günün trade-lərini göstər
+  const displayedTrades = filterDate 
+    ? trades.filter(t => t.date === filterDate) 
+    : trades;
+
   if (loading) return <Loading />;
 
   return (
-    <div className='p-6'>
+    <div className='p-6 max-w-7xl mx-auto'>
       <div className='flex justify-between items-center mb-8'>
-        <h1 className='text-2xl font-bold text-slate-800'>My Trades</h1>
+        <div>
+          <h1 className='text-2xl font-bold text-slate-800'>My Trades</h1>
+          {filterDate && (
+            <p className='text-sm text-slate-500 mt-1'>
+              Filtering for date: <span className='font-bold text-indigo-600'>{filterDate}</span>
+            </p>
+          )}
+        </div>
         <button
           onClick={openCreateModal}
           className='cursor-pointer bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-indigo-700 transition-all shadow-lg active:scale-95'
@@ -72,18 +91,42 @@ const TradesComponent: React.FC = () => {
         </button>
       </div>
 
+      {/* Filtr Banneri: Yalnız filtr aktiv olduqda görünür */}
+      {filterDate && (
+        <div className="mb-6 flex items-center justify-between bg-indigo-50 border border-indigo-100 p-4 rounded-2xl animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="flex items-center gap-3">
+            <span className="flex h-2 w-2 rounded-full bg-indigo-500 animate-pulse"></span>
+            <span className="text-indigo-700 text-sm font-medium">
+              Showing {displayedTrades.length} trades for {filterDate}
+            </span>
+          </div>
+          <button 
+            onClick={() => navigate('/trades')} 
+            className="text-xs font-bold text-indigo-600 hover:bg-white px-3 py-1.5 rounded-lg transition-all border border-transparent hover:border-indigo-100 shadow-sm"
+          >
+            Clear Filter ✕
+          </button>
+        </div>
+      )}
+
       <div className='flex items-center gap-6 flex-wrap'>
-        {trades.map(item => (
-          <TradeCard
-            key={item.id}
-            item={item}
-            onDelete={() => deleteTrade(item.id)}
-            onEdit={() => {
-              setSelectedTrade(item);
-              setIsModalOpen(true);
-            }}
-          />
-        ))}
+        {displayedTrades.length > 0 ? (
+          displayedTrades.map(item => (
+            <TradeCard
+              key={item.id}
+              item={item}
+              onDelete={() => deleteTrade(item.id)}
+              onEdit={() => {
+                setSelectedTrade(item);
+                setIsModalOpen(true);
+              }}
+            />
+          ))
+        ) : (
+          <div className="w-full text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+            <p className="text-slate-400 font-medium">No trades found for this period.</p>
+          </div>
+        )}
       </div>
 
       <AddTrade

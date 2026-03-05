@@ -18,7 +18,7 @@ export interface TradeData {
   screenshots: string[];
 }
 
-// 🔹 onDelete və onEdit optional oldu
+// onDelete və onEdit optional (?) olaraq təyin edildi
 export interface TradeCardProps {
   item: TradeData;
   onDelete?: () => void;

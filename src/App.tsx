@@ -4,7 +4,7 @@ import Dashboard from './pages/Dashboard';
 import Settings from './pages/Settings';
 import Home from './pages/Home';
 import Chart from './pages/Chart';
-import Calendar from './pages/Calendar';
+import TradeCalendar from './pages/TradeCalendar';
 import Trades from './pages/Trades';
 import TradeDetail from './pages/TradeDetail';
 
@@ -16,7 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/chart" element={<Chart />} />
-          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/calendar" element={<TradeCalendar />} />
           <Route path="/trades" element={<Trades />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/trades/:tradeId" element={<TradeDetail />} />
