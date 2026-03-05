@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { 
-  format, 
-  startOfMonth, 
-  endOfMonth, 
-  startOfWeek, 
-  endOfWeek, 
-  eachDayOfInterval, 
-  isSameMonth, 
-  isSameDay, 
-  addMonths, 
-  subMonths 
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  eachDayOfInterval,
+  isSameMonth,
+  isSameDay,
+  addMonths,
+  subMonths
 } from 'date-fns';
 import type { TradeData } from '../types/trade.types';
 import Loading from './Loading';
@@ -71,17 +71,17 @@ const TradeCalendar: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 bg-white p-1.5 rounded-2xl border border-slate-100 shadow-sm">
-          <button 
-            onClick={prevMonth} 
+          <button
+            onClick={prevMonth}
             className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-600 font-bold"
           >
             ←
           </button>
-          <span className="font-black text-slate-700 min-w-[140px] text-center uppercase tracking-wider text-sm">
+          <span className="font-black text-slate-700 min-w-35 text-center uppercase tracking-wider text-sm">
             {format(currentMonth, 'MMMM yyyy')}
           </span>
-          <button 
-            onClick={nextMonth} 
+          <button
+            onClick={nextMonth}
             className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-600 font-bold"
           >
             →
@@ -89,7 +89,7 @@ const TradeCalendar: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-[32px] border border-slate-100 shadow-xl overflow-hidden">
+      <div className="bg-white rounded-4xl border border-slate-100 shadow-xl overflow-hidden">
         {/* Header: Həftəlik Günlər */}
         <div className="grid grid-cols-7 bg-slate-50/50 border-b border-slate-100">
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
@@ -105,10 +105,10 @@ const TradeCalendar: React.FC = () => {
             const stats = getDayStats(day);
             const isCurrentMonth = isSameMonth(day, monthStart);
             const isToday = isSameDay(day, new Date());
-            
+
             return (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 onClick={() => isCurrentMonth && handleDayClick(day)}
                 className={`h-32 md:h-40 border-r border-b border-slate-50 p-2 transition-all relative group
                   ${!isCurrentMonth ? 'bg-slate-50/50 opacity-20 cursor-default' : 'bg-white cursor-pointer hover:bg-slate-50/80'}
@@ -119,11 +119,11 @@ const TradeCalendar: React.FC = () => {
                 `}>
                   {format(day, 'd')}
                 </div>
-                
+
                 {stats.count > 0 && isCurrentMonth && (
                   <div className={`mt-2 p-2 rounded-2xl text-center transition-transform group-hover:scale-105
-                    ${stats.pnl > 0 
-                      ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' 
+                    ${stats.pnl > 0
+                      ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
                       : 'bg-red-50 text-red-600 border border-red-100'
                     }
                   `}>

@@ -28,7 +28,7 @@ const PnLChart: React.FC<Props> = ({ trades }) => {
         : maxPnL > 0 ? 100 : 0;
 
     return (
-        <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 h-[450px] w-full">
+        <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 h-112.5 w-full">
             <div className="flex justify-between items-center mb-8">
                 <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Equity Growth Analysis</h3>
                 <div className="flex gap-4 text-[10px] font-bold">
