@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import type { TradeData } from '../types/trade.types';
 import Loading from './Loading';
-import AddTrade from './AddTrade'; // Edit üçün modalı daxil edirik
+import AddTrade from './AddTrade';
 
 const TradeDetail: React.FC = () => {
   const { tradeId } = useParams<{ tradeId: string }>();
@@ -13,7 +13,7 @@ const TradeDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
-  const API_BASE_URL = "http://127.0.0.1:8000";
+  const API_BASE_URL = "https://dashboard-server-m86j.onrender.com";
 
   const fetchTradeDetails = () => {
     if (!tradeId) return;
@@ -39,18 +39,22 @@ const TradeDetail: React.FC = () => {
       try {
         await axios.delete(`${API_BASE_URL}/api/trades/${tradeId}`);
         alert("Trade deleted successfully ✅");
-        navigate('/trades'); // Silindikdən sonra əsas siyahıya qayıdır
+        navigate('/trades');
       } catch (err) {
         alert("Error deleting trade ❌");
       }
     }
   };
 
-  const handleUpdate = async (id: number, data: FormData) => {
-    await axios.post(`${API_BASE_URL}/api/trades/${id}?_method=PUT`, data, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    });
-    fetchTradeDetails(); // Məlumatları yeniləyirik
+  const handleUpdate = async (id: number, data: any) => {
+    try {
+        // Base64 metodunda birbaşa PUT ilə JSON göndəririk
+        await axios.put(`${API_BASE_URL}/api/trades/${id}`, data);
+        fetchTradeDetails();
+    } catch (error) {
+        console.error("Update error:", error);
+        alert("Yenilənmə zamanı xəta!");
+    }
   };
 
   if (loading) return <Loading />;
@@ -58,8 +62,6 @@ const TradeDetail: React.FC = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-8">
-      
-      {/* Header with Actions */}
       <div className="flex justify-between items-center border-b pb-4">
         <button 
           onClick={() => navigate(-1)} 
@@ -86,7 +88,6 @@ const TradeDetail: React.FC = () => {
 
       <h1 className="text-3xl font-black text-slate-800">{trade.symbol} <span className="text-slate-400 font-normal">Analysis</span></h1>
 
-      {/* Trade məlumatları */}
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
         <div className="space-y-1">
           <span className="font-bold block text-slate-400 uppercase text-[10px] tracking-widest">Date</span> 
@@ -124,7 +125,6 @@ const TradeDetail: React.FC = () => {
         </div>
       </div>
 
-      {/* Screenshots Section */}
       <div className="pt-4">
         <h3 className="text-xl font-bold mb-6 text-slate-800 flex items-center gap-2">
           Screenshots <span className="bg-slate-100 text-slate-500 text-xs py-1 px-2 rounded-full">{trade.screenshots?.length || 0}</span>
@@ -132,10 +132,10 @@ const TradeDetail: React.FC = () => {
         
         {trade.screenshots && trade.screenshots.length > 0 ? (
           <div className="grid grid-cols-1 gap-8">
-            {trade.screenshots.map((path, index) => (
+            {trade.screenshots.map((base64Data, index) => (
               <div key={index} className="group relative overflow-hidden rounded-2xl border border-slate-200 shadow-lg bg-white p-3">
                 <img
-                  src={`${API_BASE_URL}/storage/${path}`}
+                  src={base64Data}
                   alt={`Analysis ${index + 1}`}
                   className="w-full h-auto rounded-xl"
                   onError={(e) => {
@@ -147,12 +147,11 @@ const TradeDetail: React.FC = () => {
           </div>
         ) : (
           <div className="text-center py-20 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
-             <p className="text-slate-400 italic">Bu trade üçün şəkil yüklənməyib.</p>
+              <p className="text-slate-400 italic">Bu trade üçün şəkil yüklənməyib.</p>
           </div>
         )}
       </div>
 
-      {/* Edit Modal */}
       <AddTrade 
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
@@ -160,7 +159,6 @@ const TradeDetail: React.FC = () => {
         onUpdate={handleUpdate}
         onSuccess={fetchTradeDetails}
       />
-
     </div>
   );
 };

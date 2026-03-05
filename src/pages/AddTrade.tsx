@@ -7,10 +7,12 @@ interface Props {
   onClose: () => void;
   onSuccess?: () => void;
   editTrade?: TradeData | null;
-  onUpdate?: (id: number, data: FormData) => void;
+  onUpdate?: (id: number, data: any) => void;
 }
 
 const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUpdate }) => {
+  const API_BASE_URL = "https://dashboard-server-m86j.onrender.com";
+  
   const initialState = {
     symbol: '',
     date: new Date().toISOString().split('T')[0],
@@ -30,13 +32,13 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
   const [fileInputs, setFileInputs] = useState<(File | null)[]>([null]);
 
   const inputStyle = "w-full border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none bg-white text-sm cursor-pointer transition-all";
-  const labelStyle = "block text-xs font-bold text-slate-400 mb-1 uppercase"; // Label üçün stil
+  const labelStyle = "block text-xs font-bold text-slate-400 mb-1 uppercase";
 
   useEffect(() => {
     if (editTrade) {
       setFormData({
         symbol: editTrade.symbol || '',
-        date: editTrade.date || '',
+        date: editTrade.date?.slice(0, 10) || '',
         direction: editTrade.direction || 'Long',
         durationSeconds: editTrade.durationSeconds?.toString() || '',
         quantity: editTrade.quantity?.toString() || '',
@@ -51,6 +53,7 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
     } else {
       setFormData(initialState);
     }
+    setFileInputs([null]);
   }, [editTrade, isOpen]);
 
   if (!isOpen) return null;
@@ -75,23 +78,43 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = new FormData();
-    Object.entries(formData).forEach(([key, value]) => data.append(key, value.toString()));
-    fileInputs.forEach((file) => { if (file) data.append('screenshots[]', file); });
+
+    const toBase64 = (file: File): Promise<string> => 
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = error => reject(error);
+      });
 
     try {
+      // Seçilmiş şəkilləri Base64-ə çeviririk
+      const base64Images = await Promise.all(
+        fileInputs
+          .filter((file): file is File => file !== null)
+          .map(file => toBase64(file))
+      );
+
+      // Göndəriləcək data (JSON formatında)
+      const payload = {
+        ...formData,
+        screenshots: base64Images.length > 0 ? base64Images : (editTrade?.screenshots || [])
+      };
+
       if (editTrade && onUpdate) {
-        await onUpdate(editTrade.id, data);
+        await onUpdate(editTrade.id, payload);
       } else {
-        await axios.post('http://127.0.0.1:8000/api/trades', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+        await axios.post(`${API_BASE_URL}/api/trades`, payload);
       }
+
       alert(editTrade ? "Trade updated ✅" : "Trade created ✅");
       onSuccess?.();
       onClose();
       setFormData(initialState);
       setFileInputs([null]);
     } catch (error) {
-      alert("Error ❌");
+      console.error(error);
+      alert("Xəta baş verdi ❌");
     }
   };
 
