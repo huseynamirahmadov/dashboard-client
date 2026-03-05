@@ -36,7 +36,6 @@ const TradesComponent: React.FC = () => {
   }, []);
 
   const deleteTrade = async (id: number) => {
-    if (!window.confirm("Silmək istədiyinizə əminsiniz?")) return;
     try {
       await api.delete(`/trades/${id}`);
       fetchTrades();
