@@ -64,7 +64,7 @@ const TradesComponent: React.FC = () => {
     <div className='p-6'>
       <div className='flex justify-between items-center mb-8'>
         <h1 className='text-2xl font-bold text-slate-800'>My Trades</h1>
-        <button 
+        <button
           onClick={openCreateModal}
           className='cursor-pointer bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-indigo-700 transition-all shadow-lg active:scale-95'
         >
@@ -74,7 +74,7 @@ const TradesComponent: React.FC = () => {
 
       <div className='flex items-center gap-6 flex-wrap'>
         {trades.map(item => (
-          <TradeCard 
+          <TradeCard
             key={item.id}
             item={item}
             onDelete={() => deleteTrade(item.id)}
@@ -86,7 +86,7 @@ const TradesComponent: React.FC = () => {
         ))}
       </div>
 
-      <AddTrade 
+      <AddTrade
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);

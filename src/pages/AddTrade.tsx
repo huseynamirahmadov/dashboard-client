@@ -12,7 +12,7 @@ interface Props {
 
 const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUpdate }) => {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-  
+
   const initialState = {
     symbol: '',
     date: new Date().toISOString().split('T')[0],
@@ -79,7 +79,7 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const toBase64 = (file: File): Promise<string> => 
+    const toBase64 = (file: File): Promise<string> =>
       new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -129,19 +129,19 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div>
-               <label className={labelStyle}>Symbol</label>
-               <input name="symbol" value={formData.symbol} onChange={handleChange} className={inputStyle} placeholder="e.g. NQH26" required />
+              <label className={labelStyle}>Symbol</label>
+              <input name="symbol" value={formData.symbol} onChange={handleChange} className={inputStyle} placeholder="e.g. NQH26" required />
             </div>
             <div>
-               <label className={labelStyle}>Date</label>
-               <input type="date" name="date" value={formData.date} onChange={handleChange} className={inputStyle} />
+              <label className={labelStyle}>Date</label>
+              <input type="date" name="date" value={formData.date} onChange={handleChange} className={inputStyle} />
             </div>
             <div>
-               <label className={labelStyle}>Direction</label>
-               <select name="direction" value={formData.direction} onChange={handleChange} className={inputStyle}>
-                 <option value="Long">Long</option>
-                 <option value="Short">Short</option>
-               </select>
+              <label className={labelStyle}>Direction</label>
+              <select name="direction" value={formData.direction} onChange={handleChange} className={inputStyle}>
+                <option value="Long">Long</option>
+                <option value="Short">Short</option>
+              </select>
             </div>
           </div>
 
@@ -198,14 +198,14 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
                 + Add Image Slot
               </button>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {fileInputs.map((_, index) => (
                 <div key={index} className="cursor-pointer flex flex-col p-4 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50 hover:border-indigo-300 transition-colors">
                   <span className="text-[10px] font-black text-slate-400 uppercase mb-2">Slot #{index + 1}</span>
-                  <input 
-                    type="file" 
-                    onChange={(e) => handleFileChange(index, e)} 
+                  <input
+                    type="file"
+                    onChange={(e) => handleFileChange(index, e)}
                     className="text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-indigo-100 file:text-indigo-700 cursor-pointer"
                     accept="image/*"
                   />
