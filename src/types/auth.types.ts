@@ -1,18 +1,7 @@
-// User and Authentication Types
 export interface User {
-  id: string;
-  email: string;
+  id: number;
   username: string;
-  avatar?: string;
-  role: 'admin' | 'user' | 'guest';
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface AuthState {
-  user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
+  email: string;
 }
 
 export interface LoginCredentials {
@@ -20,7 +9,9 @@ export interface LoginCredentials {
   password: string;
 }
 
-export interface RegisterData extends LoginCredentials {
+export interface RegisterData {
   username: string;
-  confirmPassword: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
 }

@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 import type { TradeData } from '../types/trade.types';
 import TradeCard from '../components/TradeCard';
-import axios from 'axios';
+import api from '../api/axios'; // DÜZƏLİŞ: axios yerinə api instance
 import Loading from './Loading';
 import AddTrade from './AddTrade';
-import { useLocation, useNavigate } from 'react-router-dom'; // URL parametrləri üçün əlavə edildi
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const TradesComponent: React.FC = () => {
   const [trades, setTrades] = useState<TradeData[]>([]);
@@ -13,21 +13,19 @@ const TradesComponent: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedTrade, setSelectedTrade] = useState<TradeData | null>(null);
 
-  // URL-dən tarixi tutmaq üçün hook-lar
   const { search } = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(search);
   const filterDate = queryParams.get('date');
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
   const fetchTrades = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API_BASE_URL}/api/trades`);
+      // DÜZƏLİŞ: api instance istifadə olunur, /api/trades artıq baseURL-də var
+      const res = await api.get('/trades');
       setTrades(res.data);
     } catch (err) {
-      console.error(err);
+      console.error("Trades fetch error:", err);
     } finally {
       setLoading(false);
     }
@@ -38,8 +36,9 @@ const TradesComponent: React.FC = () => {
   }, []);
 
   const deleteTrade = async (id: number) => {
+    if (!window.confirm("Silmək istədiyinizə əminsiniz?")) return;
     try {
-      await axios.delete(`${API_BASE_URL}/api/trades/${id}`);
+      await api.delete(`/trades/${id}`);
       fetchTrades();
     } catch (error) {
       console.error(error);
@@ -49,7 +48,7 @@ const TradesComponent: React.FC = () => {
 
   const updateTrade = async (id: number, data: any) => {
     try {
-      await axios.put(`${API_BASE_URL}/api/trades/${id}`, data);
+      await api.put(`/trades/${id}`, data);
       setIsModalOpen(false);
       setSelectedTrade(null);
       fetchTrades();
@@ -64,8 +63,6 @@ const TradesComponent: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  // --- FİLTRLƏMƏ MƏNTİQİ ---
-  // Əgər URL-də date varsa, ancaq həmin günün trade-lərini göstər
   const displayedTrades = filterDate 
     ? trades.filter(t => t.date === filterDate) 
     : trades;
@@ -91,9 +88,8 @@ const TradesComponent: React.FC = () => {
         </button>
       </div>
 
-      {/* Filtr Banneri: Yalnız filtr aktiv olduqda görünür */}
       {filterDate && (
-        <div className="mb-6 flex items-center justify-between bg-indigo-50 border border-indigo-100 p-4 rounded-2xl animate-in fade-in slide-in-from-top-4 duration-300">
+        <div className="mb-6 flex items-center justify-between bg-indigo-50 border border-indigo-100 p-4 rounded-2xl">
           <div className="flex items-center gap-3">
             <span className="flex h-2 w-2 rounded-full bg-indigo-500 animate-pulse"></span>
             <span className="text-indigo-700 text-sm font-medium">
@@ -102,7 +98,7 @@ const TradesComponent: React.FC = () => {
           </div>
           <button 
             onClick={() => navigate('/trades')} 
-            className="text-xs font-bold text-indigo-600 hover:bg-white px-3 py-1.5 rounded-lg transition-all border border-transparent hover:border-indigo-100 shadow-sm"
+            className="text-xs font-bold text-indigo-600 hover:bg-white px-3 py-1.5 rounded-lg transition-all border border-transparent hover:border-indigo-100"
           >
             Clear Filter ✕
           </button>

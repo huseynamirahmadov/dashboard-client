@@ -2,7 +2,8 @@ import { createRoot } from 'react-dom/client'
 import './assets/style/index.css'
 import App from './App'
 import { Provider } from 'react-redux'
-import { store } from './redux/app/store.ts'
+import { store } from './redux/store'
+import React from 'react'
 
 const container = document.getElementById('root')
 
@@ -10,9 +11,11 @@ if (container) {
     const root = createRoot(container)
 
     root.render(
-        <Provider store={store}>
-            <App />
-        </Provider>
+        <React.StrictMode>
+            <Provider store={store}>
+                <App />
+            </Provider>
+        </React.StrictMode>
     )
 } else {
     throw new Error(

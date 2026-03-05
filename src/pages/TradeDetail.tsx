@@ -1,6 +1,6 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import api from '../api/axios'; // DÜZƏLİŞ: axios silindi
 import type { TradeData } from '../types/trade.types';
 import Loading from './Loading';
 import AddTrade from './AddTrade';
@@ -13,13 +13,11 @@ const TradeDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-
   const fetchTradeDetails = () => {
     if (!tradeId) return;
     setLoading(true);
-    axios
-      .get<TradeData>(`${API_BASE_URL}/api/trades/${tradeId}`)
+    api
+      .get<TradeData>(`/trades/${tradeId}`) // DÜZƏLİŞ: api instance istifadəsi
       .then(res => {
         setTrade(res.data);
         setLoading(false);
@@ -37,7 +35,7 @@ const TradeDetail: React.FC = () => {
   const handleDelete = async () => {
     if (window.confirm(`Are you sure you want to delete ${trade?.symbol}?`)) {
       try {
-        await axios.delete(`${API_BASE_URL}/api/trades/${tradeId}`);
+        await api.delete(`/trades/${tradeId}`);
         alert("Trade deleted successfully ✅");
         navigate('/trades');
       } catch (err) {
@@ -48,8 +46,7 @@ const TradeDetail: React.FC = () => {
 
   const handleUpdate = async (id: number, data: any) => {
     try {
-      // Base64 metodunda birbaşa PUT ilə JSON göndəririk
-      await axios.put(`${API_BASE_URL}/api/trades/${id}`, data);
+      await api.put(`/trades/${id}`, data);
       fetchTradeDetails();
     } catch (error) {
       console.error("Update error:", error);
