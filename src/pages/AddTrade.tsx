@@ -179,8 +179,20 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {fileInputs.map((_, index) => (
-                <input key={index} type="file" onChange={(e) => handleFileChange(index, e)} className="text-xs" accept="image/*" />
+              {fileInputs.map((file, index) => (
+                <div key={index} className="relative">
+                  <label className="flex items-center justify-center w-full h-32 px-4 transition bg-white border-2 border-slate-200 border-dashed rounded-xl cursor-pointer hover:border-indigo-400 hover:bg-slate-50">
+                    <div className="flex flex-col items-center space-y-2 text-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span className="text-xs font-medium text-slate-500">
+                        {file ? file.name : "Click to upload screenshot"}
+                      </span>
+                    </div>
+                    <input type="file" onChange={(e) => handleFileChange(index, e)} className="hidden" accept="image/*" />
+                  </label>
+                </div>
               ))}
             </div>
           </div>
