@@ -16,9 +16,9 @@ const AuthStatus: React.FC = () => {
           {/* İndi həm username, həm də name TypeScript tərəfindən tanınır */}
           {user?.username || user?.name || 'User'}
         </span>
-        <button 
+        <button
           onClick={() => dispatch(logout())}
-          className="bg-white text-blue-500 px-4 py-1 rounded shadow hover:bg-gray-100 transition text-sm font-semibold"
+          className="bg-white text-blue-500 px-4 py-1 rounded shadow hover:bg-gray-100 transition text-sm font-semibold cursor-pointer"
         >
           Log out
         </button>
@@ -29,16 +29,16 @@ const AuthStatus: React.FC = () => {
   // Əgər istifadəçi daxil olmayıbsa (qonaqdırsa)
   return (
     <div className="flex items-center gap-4 border-l pl-6 border-blue-400">
-      <NavLink 
-        to='/login' 
-        className={({ isActive }) => 
+      <NavLink
+        to='/login'
+        className={({ isActive }) =>
           `text-white hover:underline text-lg ${isActive ? 'font-bold' : ''}`
         }
       >
         Login
       </NavLink>
-      <NavLink 
-        to='/register' 
+      <NavLink
+        to='/register'
         className="bg-white text-blue-500 px-4 py-1 rounded shadow hover:bg-gray-100 transition text-sm font-semibold"
       >
         Register

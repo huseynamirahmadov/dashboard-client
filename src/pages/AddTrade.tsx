@@ -174,7 +174,7 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
           <div className="mt-8 pt-6 border-t border-slate-100">
             <div className="flex justify-between items-center mb-5">
               <h3 className="font-extrabold text-slate-700 text-sm">Screenshots</h3>
-              <button type="button" onClick={addFileInput} className="bg-indigo-600 text-white px-4 py-2 rounded-full text-xs">
+              <button type="button" onClick={addFileInput} className="bg-indigo-600 text-white px-4 py-2 rounded-full text-xs cursor-pointer">
                 + Add Image
               </button>
             </div>
@@ -198,8 +198,8 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
           </div>
 
           <div className="flex gap-4">
-            <button type="button" onClick={onClose} className="flex-1 bg-slate-100 py-4 rounded-xl font-bold">Cancel</button>
-            <button type="submit" className="flex-2 bg-slate-900 text-white py-4 rounded-xl font-bold">Save</button>
+            <button type="button" onClick={onClose} className="flex-1 bg-slate-100 py-4 rounded-xl font-bold cursor-pointer">Cancel</button>
+            <button type="submit" className="flex-2 bg-slate-900 text-white py-4 rounded-xl font-bold cursor-pointer">Save</button>
           </div>
         </form>
       </div>

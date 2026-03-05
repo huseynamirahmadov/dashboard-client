@@ -63,8 +63,8 @@ const TradesComponent: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const displayedTrades = filterDate 
-    ? trades.filter(t => t.date === filterDate) 
+  const displayedTrades = filterDate
+    ? trades.filter(t => t.date === filterDate)
     : trades;
 
   if (loading) return <Loading />;
@@ -96,9 +96,9 @@ const TradesComponent: React.FC = () => {
               Showing {displayedTrades.length} trades for {filterDate}
             </span>
           </div>
-          <button 
-            onClick={() => navigate('/trades')} 
-            className="text-xs font-bold text-indigo-600 hover:bg-white px-3 py-1.5 rounded-lg transition-all border border-transparent hover:border-indigo-100"
+          <button
+            onClick={() => navigate('/trades')}
+            className="text-xs font-bold text-indigo-600 hover:bg-white px-3 py-1.5 rounded-lg transition-all border border-transparent hover:border-indigo-100 cursor-pointer"
           >
             Clear Filter ✕
           </button>
