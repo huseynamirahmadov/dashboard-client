@@ -6,7 +6,7 @@ export type { TradeData, TradeDirection, TradeStatus, TradeCardProps } from './t
 export type { ApiResponse, PaginatedResponse } from './api.types';
 
 // Auth Types
-export type { User, AuthState, LoginCredentials, RegisterData } from './auth.types';
+export type { User, AuthState, AuthResponse, LoginCredentials, RegisterData } from './auth.types';
 
 // UI Types
 export type { ButtonProps, CardProps, ModalProps, TableProps, TableColumn } from './ui.types';
