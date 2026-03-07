@@ -22,7 +22,10 @@ function App() {
 
   useEffect(() => {
     if (token && !user) {
-      dispatch(getUser());
+      dispatch(getUser()).unwrap().catch(() => {
+        // Server əlçatan deyilsə və ya token keçərsizdirsə, köhnə tokeni sil
+        localStorage.removeItem('token');
+      });
     }
   }, [token, user, dispatch]);
 
