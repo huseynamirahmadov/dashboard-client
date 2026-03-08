@@ -24,11 +24,11 @@ const TradeDetail: React.FC = () => {
   useEffect(() => { fetchTradeDetails(); }, [tradeId]);
 
   const handleDelete = async () => {
-    if (window.confirm(`"${trade?.symbol}" trade-ni silmək istəyirsiniz?`)) {
+    if (window.confirm(`Are you sure you want to delete the trade "${trade?.symbol}"?`)) {
       try {
         await api.delete(`/trades/${tradeId}`);
         navigate('/trades');
-      } catch { alert("Silinmə zamanı xəta ❌"); }
+      } catch { alert("Error deleting trade ❌"); }
     }
   };
 
@@ -36,15 +36,15 @@ const TradeDetail: React.FC = () => {
     try {
       await api.put(`/trades/${id}`, data);
       fetchTradeDetails();
-    } catch { alert("Yenilənmə zamanı xəta!"); }
+    } catch { alert("Error updating trade!"); }
   };
 
   if (loading) return <Loading />;
   if (!trade) return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] gap-4">
       <div className="text-4xl opacity-20">🔍</div>
-      <p className="text-surface-500 font-medium">Trade tapılmadı</p>
-      <button onClick={() => navigate('/trades')} className={btnPrimaryClass}>Trades-ə qayıt</button>
+      <p className="text-surface-500 font-medium">Trade not found</p>
+      <button onClick={() => navigate('/trades')} className={btnPrimaryClass}>Back to Trades</button>
     </div>
   );
 
@@ -126,7 +126,7 @@ const TradeDetail: React.FC = () => {
         ) : (
           <div className={`${cardClass} p-16 text-center`}>
             <div className="text-3xl mb-3 opacity-15">📸</div>
-            <p className="text-surface-600">Bu trade üçün şəkil yüklənməyib</p>
+            <p className="text-surface-600">No screenshots uploaded for this trade</p>
           </div>
         )}
       </div>

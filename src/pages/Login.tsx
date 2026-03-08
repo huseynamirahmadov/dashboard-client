@@ -33,8 +33,8 @@ const Login: React.FC = () => {
           </div>
         </div>
 
-        <h2 className="text-2xl font-extrabold text-center text-surface-100 mb-1">Xoş Gəlmisiniz!</h2>
-        <p className="text-center text-surface-500 text-sm mb-8">Hesabınıza daxil olun</p>
+        <h2 className="text-2xl font-extrabold text-center text-surface-100 mb-1">Welcome Back!</h2>
+        <p className="text-center text-surface-500 text-sm mb-8">Log in to your account</p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {error && (
@@ -56,7 +56,7 @@ const Login: React.FC = () => {
           </div>
 
           <div>
-            <label className={labelClass}>Şifrə</label>
+            <label className={labelClass}>Password</label>
             <input
               type="password"
               placeholder="••••••••"
@@ -68,14 +68,14 @@ const Login: React.FC = () => {
           </div>
 
           <button type="submit" disabled={loading} className={`${btnPrimaryClass} w-full !py-3.5`}>
-            {loading ? 'Yüklənir...' : 'Daxil Ol'}
+            {loading ? 'Loading...' : 'Log In'}
           </button>
         </form>
 
         <p className="mt-6 text-center text-surface-600 text-sm">
-          Hesabın yoxdur?{' '}
+          Don't have an account?{' '}
           <Link to="/register" className="text-amber-brand hover:text-amber-light font-semibold transition-colors">
-            Qeydiyyatdan keç
+            Sign up
           </Link>
         </p>
       </div>

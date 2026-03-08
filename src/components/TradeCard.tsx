@@ -8,7 +8,7 @@ const TradeCard: React.FC<TradeCardProps> = ({ item, onDelete, onEdit }) => {
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (confirm(`"${item.symbol}" trade-ni silmək istəyirsiniz?`)) {
+    if (confirm(`Are you sure you want to delete the trade "${item.symbol}"?`)) {
       onDelete?.();
     }
   }

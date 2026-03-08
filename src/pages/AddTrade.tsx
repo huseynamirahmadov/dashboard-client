@@ -83,7 +83,7 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
       onClose();
     } catch (error: any) {
       console.error("Submission error:", error);
-      alert(error.response?.data?.message || "Xəta baş verdi!");
+      alert(error.response?.data?.message || "An error occurred!");
     }
   };
 

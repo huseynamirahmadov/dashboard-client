@@ -39,18 +39,18 @@ const Register: React.FC = () => {
           </div>
         </div>
 
-        <h2 className="text-2xl font-extrabold text-center text-surface-100 mb-1">Hesab Yarat</h2>
-        <p className="text-center text-surface-500 text-sm mb-8">Bir neçə saniyədə qeydiyyatdan keç</p>
+        <h2 className="text-2xl font-extrabold text-center text-surface-100 mb-1">Create Account</h2>
+        <p className="text-center text-surface-500 text-sm mb-8">Sign up in seconds</p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {error && (
             <div className="text-sm bg-loss/10 border border-loss/20 text-loss p-3.5 rounded-xl text-center font-medium">
-              {typeof error === 'string' ? error : "Məlumatları yoxlayın"}
+              {typeof error === 'string' ? error : "Check your details"}
             </div>
           )}
 
           <div>
-            <label className={labelClass}>İstifadəçi adı</label>
+            <label className={labelClass}>Username</label>
             <input name="username" type="text" placeholder="username" className={inputClass} value={formData.username} onChange={handleChange} required />
           </div>
 
@@ -60,24 +60,24 @@ const Register: React.FC = () => {
           </div>
 
           <div>
-            <label className={labelClass}>Şifrə</label>
+            <label className={labelClass}>Password</label>
             <input name="password" type="password" placeholder="••••••••" className={inputClass} value={formData.password} onChange={handleChange} required />
           </div>
 
           <div>
-            <label className={labelClass}>Şifrəni təkrarla</label>
+            <label className={labelClass}>Confirm Password</label>
             <input name="password_confirmation" type="password" placeholder="••••••••" className={inputClass} value={formData.password_confirmation} onChange={handleChange} required />
           </div>
 
           <button type="submit" disabled={loading} className={`${btnPrimaryClass} w-full !py-3.5 mt-2`}>
-            {loading ? 'Yoxlanılır...' : 'Qeydiyyatı Tamamla'}
+            {loading ? 'Checking...' : 'Sign Up'}
           </button>
         </form>
 
         <p className="mt-6 text-center text-surface-600 text-sm">
-          Artıq hesabın var?{' '}
+          Already have an account?{' '}
           <Link to="/login" className="text-amber-brand hover:text-amber-light font-semibold transition-colors">
-            Daxil ol
+            Log In
           </Link>
         </p>
       </div>

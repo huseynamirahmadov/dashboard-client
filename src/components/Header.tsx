@@ -70,7 +70,7 @@ const Header: React.FC = () => {
                 onClick={() => dispatch(logout())}
                 className="text-xs font-medium text-surface-500 hover:text-red-brand px-3 py-2 rounded-lg hover:bg-red-brand/10 transition-all cursor-pointer"
               >
-                Çıxış
+                Log out
               </button>
             </div>
           ) : (
@@ -79,13 +79,13 @@ const Header: React.FC = () => {
                 to='/login'
                 className="text-sm font-medium text-surface-400 hover:text-surface-200 px-4 py-2 rounded-lg hover:bg-surface-800 transition-all"
               >
-                Daxil ol
+                Log in
               </NavLink>
               <NavLink
                 to='/register'
                 className={`${btnPrimaryClass} !text-xs !py-2 !px-4`}
               >
-                Qeydiyyat
+                Register
               </NavLink>
             </div>
           )}

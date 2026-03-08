@@ -44,11 +44,11 @@ const Home: React.FC = () => {
             ) : (
               <>
                 <Link to="/register" className={`${btnPrimaryClass} text-base !px-8 !py-4`}>
-                  Başla
+                  Get Started
                   <span>→</span>
                 </Link>
                 <Link to="/login" className="bg-surface-900 border border-surface-800 text-surface-300 px-8 py-4 rounded-xl font-semibold hover:bg-surface-800 hover:border-surface-700 transition-all text-base">
-                  Daxil Ol
+                  Log In
                 </Link>
               </>
             )}

@@ -49,12 +49,12 @@ const Settings: React.FC = () => {
         <h3 className="text-sm font-bold text-red-brand flex items-center gap-2 mb-4">
           <span className="text-base">⚠️</span> Danger Zone
         </h3>
-        <p className="text-surface-600 text-sm mb-4">Hesabdan çıxış etmək bütün lokal məlumatları silir.</p>
+        <p className="text-surface-600 text-sm mb-4">Logging out removes all local session data.</p>
         <button
           onClick={() => dispatch(logout())}
           className="text-xs font-bold text-red-brand bg-red-brand/10 hover:bg-red-brand/20 px-5 py-2.5 rounded-xl transition-all cursor-pointer uppercase tracking-wider"
         >
-          Çıxış Et
+          Log Out
         </button>
       </div>
     </div>

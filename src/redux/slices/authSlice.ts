@@ -31,7 +31,7 @@ export const registerUser = createAsyncThunk(
         const firstErrorArray = Object.values(errors)[0];
         return rejectWithValue(firstErrorArray[0]);
       }
-      return rejectWithValue(errorData?.message || 'Qeydiyyat zamanı xəta baş verdi');
+      return rejectWithValue(errorData?.message || 'An error occurred during registration');
     }
   }
 );
@@ -44,7 +44,7 @@ export const loginUser = createAsyncThunk(
             localStorage.setItem('token', response.data.token);
             return response.data;
         } catch (err: any) {
-            return rejectWithValue(err.response?.data?.message || 'Giriş alınmadı');
+            return rejectWithValue(err.response?.data?.message || 'Login failed');
         }
     }
 );
@@ -56,7 +56,7 @@ export const getUser = createAsyncThunk(
             const response = await api.get('/user');
             return response.data;
         } catch (err: any) {
-            return rejectWithValue(err.response?.data?.message || 'İstifadəçi məlumatları alınmadı');
+            return rejectWithValue(err.response?.data?.message || 'Failed to fetch user data');
         }
     }
 );
