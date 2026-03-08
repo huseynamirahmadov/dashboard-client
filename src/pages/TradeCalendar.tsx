@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import {
   format, startOfMonth, endOfMonth, startOfWeek, endOfWeek,
   eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths
 } from 'date-fns';
-import type { TradeData } from '../types/trade.types';
 import Loading from './Loading';
 import { cardClass } from '../utils/styles';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { fetchTrades } from '../redux/slices/tradeSlice';
 
 const TradeCalendar: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [trades, setTrades] = useState<TradeData[]>([]);
-  const [loading, setLoading] = useState(true);
+
+  const { trades, loading } = useAppSelector((state) => state.trades);
 
   useEffect(() => {
-    api.get('/trades')
-      .then(res => { setTrades(res.data); setLoading(false); })
-      .catch(err => { console.error("Calendar data fetch error:", err); setLoading(false); });
-  }, []);
+    dispatch(fetchTrades());
+  }, [dispatch]);
 
   if (loading) return <Loading />;
 

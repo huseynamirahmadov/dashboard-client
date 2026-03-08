@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import api from '../api/axios';
 import type { TradeData } from '../types/trade.types';
 import { inputClass, btnPrimaryClass, labelClass } from '../utils/styles';
+import { useAppDispatch } from '../redux/hooks';
+import { createTrade } from '../redux/slices/tradeSlice';
 
 interface Props {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUpdate }) => {
+  const dispatch = useAppDispatch();
   const initialState = {
     symbol: '', date: new Date().toISOString().split('T')[0], direction: 'Long',
     durationSeconds: '', quantity: '', risk: '', riskReward: '', range: '',
@@ -75,7 +77,7 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
       if (editTrade && onUpdate) {
         await onUpdate(editTrade.id, payload);
       } else {
-        await api.post('/trades', payload);
+        await dispatch(createTrade(payload)).unwrap();
       }
 
       alert(editTrade ? "Trade updated ✅" : "Trade created ✅");
@@ -134,10 +136,9 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
             <div>
               <label className={labelClass}>Status</label>
               <select name="status" value={formData.status} onChange={handleChange} className={inputClass}>
-                <option value="TP">TP</option>
-                <option value="SL">SL</option>
-                <option value="BE">BE</option>
-                <option value="MA">MA</option>
+                {['TP', 'SL', 'BE', 'MA'].map(item => (
+                  <option value={item}>{item}</option>
+                ))}
               </select>
             </div>
             <div>

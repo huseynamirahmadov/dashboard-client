@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import api from '../api/axios';
+import React, { useEffect } from 'react';
 import PnLChart from '../components/PnLChart';
 import Loading from './Loading';
-import type { TradeData } from '../types/trade.types';
 import { cardClass } from '../utils/styles';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { fetchTrades } from '../redux/slices/tradeSlice';
 
 const StatCard: React.FC<{
   label: string;
@@ -34,20 +34,12 @@ const StatCard: React.FC<{
 );
 
 const Dashboard: React.FC = () => {
-  const [trades, setTrades] = useState<TradeData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
+  const { trades, loading } = useAppSelector((state) => state.trades);
 
   useEffect(() => {
-    api.get('/trades')
-      .then(res => {
-        setTrades(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Dashboard fetch error:", err);
-        setLoading(false);
-      });
-  }, []);
+    dispatch(fetchTrades());
+  }, [dispatch]);
 
   if (loading) return <Loading />;
 

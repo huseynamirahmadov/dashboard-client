@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 import type { TradeData } from '../types/trade.types';
 import TradeCard from '../components/TradeCard';
-import api from '../api/axios';
 import Loading from './Loading';
 import AddTrade from './AddTrade';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { btnPrimaryClass, cardClass } from '../utils/styles';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { fetchTrades, deleteTrade, updateTrade } from '../redux/slices/tradeSlice';
 
 const TradesComponent: React.FC = () => {
-  const [trades, setTrades] = useState<TradeData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
+  const { trades, loading } = useAppSelector((state) => state.trades);
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedTrade, setSelectedTrade] = useState<TradeData | null>(null);
 
@@ -19,38 +21,29 @@ const TradesComponent: React.FC = () => {
   const queryParams = new URLSearchParams(search);
   const filterDate = queryParams.get('date');
 
-  const fetchTrades = async () => {
-    try {
-      setLoading(true);
-      const res = await api.get('/trades');
-      setTrades(res.data);
-    } catch (err) {
-      console.error("Trades fetch error:", err);
-    } finally {
-      setLoading(false);
-    }
+  const fetchTradesData = () => {
+    dispatch(fetchTrades());
   };
 
   useEffect(() => {
-    fetchTrades();
-  }, []);
+    fetchTradesData();
+  }, [dispatch]);
 
-  const deleteTrade = async (id: number) => {
+  const handleDelete = async (id: number) => {
     try {
-      await api.delete(`/trades/${id}`);
-      fetchTrades();
+      await dispatch(deleteTrade(id)).unwrap();
     } catch (error) {
       console.error(error);
       alert("Error deleting trade!");
     }
   };
 
-  const updateTrade = async (id: number, data: any) => {
+  const handleUpdate = async (id: number, data: any) => {
     try {
-      await api.put(`/trades/${id}`, data);
+      await dispatch(updateTrade({ id, tradeData: data })).unwrap();
       setIsModalOpen(false);
       setSelectedTrade(null);
-      fetchTrades();
+      fetchTradesData();
     } catch (error) {
       console.error(error);
       alert("Update error!");
@@ -118,7 +111,7 @@ const TradesComponent: React.FC = () => {
             <TradeCard
               key={item.id}
               item={item}
-              onDelete={() => deleteTrade(item.id)}
+              onDelete={() => handleDelete(item.id)}
               onEdit={() => {
                 setSelectedTrade(item);
                 setIsModalOpen(true);
@@ -140,9 +133,9 @@ const TradesComponent: React.FC = () => {
           setIsModalOpen(false);
           setSelectedTrade(null);
         }}
-        onSuccess={fetchTrades}
+        onSuccess={fetchTradesData}
         editTrade={selectedTrade}
-        onUpdate={updateTrade}
+        onUpdate={handleUpdate}
       />
     </div>
   );
