@@ -9,16 +9,29 @@ const initialState: AuthState = {
     error: null,
 };
 
+export const sendOtp = createAsyncThunk(
+  'auth/sendOtp',
+  async (email: string, { rejectWithValue }) => {
+    try {
+      const response = await api.post('/send-otp', { email });
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data?.message || 'Failed to send OTP');
+    }
+  }
+);
+
 export const registerUser = createAsyncThunk(
   'auth/register',
   async (formData: any, { rejectWithValue }) => {
     try {
       // Backend (AuthController) mütləq 'username' gözləyir
       const payload = {
-        username: formData.username, // Burada 'name' yox, 'username' olmalıdır
+        username: formData.username,
         email: formData.email,
         password: formData.password,
-        password_confirmation: formData.password_confirmation
+        password_confirmation: formData.password_confirmation,
+        otp: formData.otp
       };
 
       const response = await api.post('/register', payload);
@@ -105,6 +118,17 @@ const authSlice = createSlice({
                 state.token = null;
                 state.user = null;
                 localStorage.removeItem('token');
+                state.error = action.payload as string;
+            })
+            .addCase(sendOtp.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(sendOtp.fulfilled, (state) => {
+                state.loading = false;
+            })
+            .addCase(sendOtp.rejected, (state, action) => {
+                state.loading = false;
                 state.error = action.payload as string;
             });
     },

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { registerUser } from '../redux/slices/authSlice';
+import { registerUser, sendOtp } from '../redux/slices/authSlice';
 import { inputClass, btnPrimaryClass, labelClass } from '../utils/styles';
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
-    username: '', email: '', password: '', password_confirmation: ''
+    username: '', email: '', password: '', password_confirmation: '', otp: ''
   });
+  const [isOtpSent, setIsOtpSent] = useState(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -21,8 +22,26 @@ const Register: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleSendOtp = async () => {
+    if (!formData.email) {
+      alert("Please enter your email first");
+      return;
+    }
+    try {
+      await dispatch(sendOtp(formData.email)).unwrap();
+      setIsOtpSent(true);
+      alert("Verification code sent to your email!");
+    } catch (err: any) {
+      console.error(err);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isOtpSent) {
+      handleSendOtp();
+      return;
+    }
     dispatch(registerUser(formData));
   };
 
@@ -69,9 +88,23 @@ const Register: React.FC = () => {
             <input name="password_confirmation" type="password" placeholder="••••••••" className={inputClass} value={formData.password_confirmation} onChange={handleChange} required />
           </div>
 
+          {isOtpSent && (
+            <div className="animate-fade-in">
+              <label className={labelClass}>Verification Code (OTP)</label>
+              <input name="otp" type="text" placeholder="123456" className={`${inputClass} !tracking-[0.5em] text-center font-bold text-lg`} value={formData.otp} onChange={handleChange} required maxLength={6} />
+              <p className="text-[10px] text-surface-500 mt-1.5 text-center">Enter the 6-digit code sent to your email</p>
+            </div>
+          )}
+
           <button type="submit" disabled={loading} className={`${btnPrimaryClass} w-full !py-3.5 mt-2`}>
-            {loading ? 'Checking...' : 'Sign Up'}
+            {loading ? (isOtpSent ? 'Verifying...' : 'Sending...') : (isOtpSent ? 'Complete Registration' : 'Send Verification Code')}
           </button>
+
+          {isOtpSent && !loading && (
+            <button type="button" onClick={handleSendOtp} className="w-full text-xs text-surface-500 hover:text-amber-brand transition-colors mt-2 text-center underline cursor-pointer">
+              Resend Code
+            </button>
+          )}
         </form>
 
         <p className="mt-6 text-center text-surface-600 text-sm">
