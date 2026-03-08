@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api/axios';
 import type { TradeData } from '../types/trade.types';
-import { inputClass, btnPrimaryClass, labelClass, cardClass } from '../utils/styles';
+import { inputClass, btnPrimaryClass, labelClass } from '../utils/styles';
 
 interface Props {
   isOpen: boolean;
@@ -137,7 +137,7 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
                 <option value="TP">TP</option>
                 <option value="SL">SL</option>
                 <option value="BE">BE</option>
-                <option value="Open">Open</option>
+                <option value="MA">MA</option>
               </select>
             </div>
             <div>
