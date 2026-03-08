@@ -11,11 +11,15 @@ const api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
-        // Hər sorğu anında localStorage-dan ən son tokeni oxuyur
-        const token = localStorage.getItem('token');
-        if (token) {
-            // Bearer-dən sonra boşluq mütləqdir
-            config.headers.Authorization = `Bearer ${token}`;
+        // Login və register kimi açıq marşrutlara token göndərmə
+        const publicPaths = ['/login', '/register'];
+        const isPublicPath = publicPaths.some(path => config.url?.endsWith(path));
+
+        if (!isPublicPath) {
+            const token = localStorage.getItem('token');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
         }
         return config;
     },

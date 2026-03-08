@@ -92,6 +92,8 @@ const authSlice = createSlice({
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
+                state.token = null;
+                localStorage.removeItem('token');
             })
             .addCase(getUser.pending, (state) => { state.loading = true; })
             .addCase(getUser.fulfilled, (state, action: PayloadAction<any>) => {
