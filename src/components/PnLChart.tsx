@@ -1,7 +1,7 @@
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import type { TradeData } from '../types/trade.types';
-import { glassClass, glassLightClass } from '../utils/styles';
+import { cardClass } from '../utils/styles';
 
 interface Props {
     trades: TradeData[];
@@ -29,9 +29,9 @@ const PnLChart: React.FC<Props> = ({ trades }) => {
         if (active && payload && payload.length) {
             const value = payload[0].value;
             return (
-                <div className={`${glassClass} rounded-xl px-4 py-3 shadow-2xl border border-dark-600`}>
-                    <p className="text-[10px] font-bold text-dark-300 uppercase tracking-wider mb-1">{label}</p>
-                    <p className={`text-lg font-black ${value >= 0 ? 'text-profit' : 'text-loss'}`}>
+                <div className="bg-surface-800 border border-surface-700 rounded-xl px-4 py-3 shadow-xl">
+                    <p className="text-[10px] font-semibold text-surface-500 uppercase tracking-wider mb-1">{label}</p>
+                    <p className={`text-lg font-extrabold ${value >= 0 ? 'text-profit' : 'text-loss'}`}>
                         ${Number(value).toFixed(2)}
                     </p>
                 </div>
@@ -41,20 +41,20 @@ const PnLChart: React.FC<Props> = ({ trades }) => {
     };
 
     return (
-        <div className={`${glassLightClass} rounded-2xl p-6 sm:p-8`}>
+        <div className={`${cardClass} p-6 sm:p-8`}>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
                 <div>
-                    <h3 className="text-sm font-bold text-white">Equity Growth</h3>
-                    <p className="text-[10px] text-dark-400 uppercase tracking-wider mt-0.5">Cumulative P&L over time</p>
+                    <h3 className="text-base font-bold text-surface-100">Equity Growth</h3>
+                    <p className="text-xs text-surface-600 mt-0.5">Cumulative P&L over time</p>
                 </div>
-                <div className="flex gap-4 text-[10px] font-bold">
-                    <span className="flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-profit"></span>
-                        <span className="text-dark-300">Profit</span>
+                <div className="flex gap-5 text-xs font-semibold">
+                    <span className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-profit"></span>
+                        <span className="text-surface-500">Profit</span>
                     </span>
-                    <span className="flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-loss"></span>
-                        <span className="text-dark-300">Loss</span>
+                    <span className="flex items-center gap-2">
+                        <span className="w-2.5 h-2.5 rounded-full bg-loss"></span>
+                        <span className="text-surface-500">Loss</span>
                     </span>
                 </div>
             </div>
@@ -64,12 +64,12 @@ const PnLChart: React.FC<Props> = ({ trades }) => {
                     <AreaChart data={data}>
                         <defs>
                             <linearGradient id="splitColor" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset={`${off}%`} stopColor="#00e676" stopOpacity={0.15} />
-                                <stop offset={`${off}%`} stopColor="#ff1744" stopOpacity={0.15} />
+                                <stop offset={`${off}%`} stopColor="#22c55e" stopOpacity={0.12} />
+                                <stop offset={`${off}%`} stopColor="#ef4444" stopOpacity={0.12} />
                             </linearGradient>
                             <linearGradient id="lineColor" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset={`${off}%`} stopColor="#00e676" stopOpacity={1} />
-                                <stop offset={`${off}%`} stopColor="#ff1744" stopOpacity={1} />
+                                <stop offset={`${off}%`} stopColor="#22c55e" stopOpacity={1} />
+                                <stop offset={`${off}%`} stopColor="#ef4444" stopOpacity={1} />
                             </linearGradient>
                         </defs>
 
@@ -77,20 +77,20 @@ const PnLChart: React.FC<Props> = ({ trades }) => {
 
                         <XAxis
                             dataKey="date"
-                            stroke="#3a4570"
-                            fontSize={10}
+                            stroke="#57534e"
+                            fontSize={11}
                             tickLine={false}
                             axisLine={false}
-                            fontWeight={600}
+                            fontWeight={500}
                         />
 
                         <YAxis
-                            stroke="#3a4570"
-                            fontSize={10}
+                            stroke="#57534e"
+                            fontSize={11}
                             tickLine={false}
                             axisLine={false}
                             tickFormatter={(val) => `$${val}`}
-                            fontWeight={600}
+                            fontWeight={500}
                         />
 
                         <Tooltip content={<CustomTooltip />} />
@@ -99,9 +99,9 @@ const PnLChart: React.FC<Props> = ({ trades }) => {
                             type="monotone"
                             dataKey="cumulativePnL"
                             stroke="url(#lineColor)"
-                            strokeWidth={3}
+                            strokeWidth={2.5}
                             fill="url(#splitColor)"
-                            animationDuration={2000}
+                            animationDuration={1500}
                         />
                     </AreaChart>
                 </ResponsiveContainer>

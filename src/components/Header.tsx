@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { NavLink, useLocation } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from '../redux/hooks';
 import { logout } from '../redux/slices/authSlice';
-import { glassClass, btnPrimaryClass, gradientTextClass, glassLightClass } from '../utils/styles';
+import { btnPrimaryClass } from '../utils/styles';
 
 const navItems = [
-  { to: '/dashboard', label: 'Dashboard', icon: '📊' },
-  { to: '/trades', label: 'Trades', icon: '📈' },
-  { to: '/calendar', label: 'Calendar', icon: '📅' },
-  { to: '/settings', label: 'Settings', icon: '⚙️' },
+  { to: '/dashboard', label: 'Dashboard', icon: '◉' },
+  { to: '/trades', label: 'Trades', icon: '◎' },
+  { to: '/calendar', label: 'Calendar', icon: '▦' },
+  { to: '/settings', label: 'Settings', icon: '⚙' },
 ];
 
 const Header: React.FC = () => {
@@ -22,50 +22,53 @@ const Header: React.FC = () => {
   if (isAuthPage) return null;
 
   return (
-    <header className={`${glassClass} sticky top-0 z-50`}>
-      <nav className="flex items-center justify-between max-w-[1600px] mx-auto px-6 py-3">
+    <header className="bg-surface-900/80 backdrop-blur-lg border-b border-surface-800 sticky top-0 z-50">
+      <nav className="flex items-center justify-between max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-16">
         {/* Logo */}
         <NavLink to='/dashboard' className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent-blue to-accent-purple flex items-center justify-center text-white font-black text-sm shadow-lg group-hover:scale-105 transition-transform">
+          <div className="w-9 h-9 rounded-xl bg-amber-brand flex items-center justify-center text-surface-950 font-extrabold text-sm">
             TD
           </div>
-          <span className="text-lg font-bold text-white hidden sm:block">
-            Trade<span className={gradientTextClass}>Dash</span>
+          <span className="text-lg font-bold text-surface-100 hidden sm:block tracking-tight">
+            Trade<span className="text-amber-brand">Dash</span>
           </span>
         </NavLink>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-1 bg-surface-800/50 rounded-xl p-1">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all
-                after:absolute after:bottom-[-2px] after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:bg-gradient-to-r after:from-accent-blue after:to-accent-purple after:transition-all after:duration-300 after:rounded-full ${isActive ? 'after:w-full text-white bg-dark-700' : 'after:w-0 hover:after:w-full text-dark-200 hover:text-white hover:bg-dark-800'}`
+                `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                ${isActive
+                  ? 'bg-surface-700 text-surface-100 shadow-sm'
+                  : 'text-surface-500 hover:text-surface-300 hover:bg-surface-800'
+                }`
               }
             >
-              <span className="text-sm">{item.icon}</span>
+              <span className="text-xs opacity-70">{item.icon}</span>
               {item.label}
             </NavLink>
           ))}
         </div>
 
         {/* User Section */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {token ? (
             <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-dark-700/50">
-                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-blue flex items-center justify-center text-[10px] font-bold text-white">
+              <div className="hidden sm:flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-amber-brand/20 text-amber-brand flex items-center justify-center text-xs font-bold">
                   {(user?.username || user?.name || 'U').charAt(0).toUpperCase()}
                 </div>
-                <span className="text-sm font-medium text-dark-200">
+                <span className="text-sm font-medium text-surface-400">
                   {user?.username || user?.name || 'User'}
                 </span>
               </div>
               <button
                 onClick={() => dispatch(logout())}
-                className="text-xs font-semibold text-dark-300 hover:text-accent-pink px-3 py-2 rounded-xl hover:bg-dark-700/50 transition-all cursor-pointer"
+                className="text-xs font-medium text-surface-500 hover:text-red-brand px-3 py-2 rounded-lg hover:bg-red-brand/10 transition-all cursor-pointer"
               >
                 Çıxış
               </button>
@@ -74,13 +77,13 @@ const Header: React.FC = () => {
             <div className="flex items-center gap-2">
               <NavLink
                 to='/login'
-                className="text-sm font-medium text-dark-200 hover:text-white px-4 py-2 rounded-xl hover:bg-dark-700/50 transition-all"
+                className="text-sm font-medium text-surface-400 hover:text-surface-200 px-4 py-2 rounded-lg hover:bg-surface-800 transition-all"
               >
                 Daxil ol
               </NavLink>
               <NavLink
                 to='/register'
-                className={`${btnPrimaryClass} text-xs !py-2 !px-4`}
+                className={`${btnPrimaryClass} !text-xs !py-2 !px-4`}
               >
                 Qeydiyyat
               </NavLink>
@@ -90,7 +93,7 @@ const Header: React.FC = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden text-dark-200 hover:text-white p-2 cursor-pointer"
+            className="md:hidden text-surface-400 hover:text-surface-200 p-2 cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={mobileOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
@@ -101,8 +104,8 @@ const Header: React.FC = () => {
 
       {/* Mobile Nav */}
       {mobileOpen && (
-        <div className="md:hidden px-4 pb-4 animate-fade-in">
-          <div className={`flex flex-col gap-1 ${glassLightClass} rounded-2xl p-3`}>
+        <div className="md:hidden px-4 pb-4 animate-fade-in border-t border-surface-800">
+          <div className="flex flex-col gap-1 pt-3">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -110,7 +113,7 @@ const Header: React.FC = () => {
                 onClick={() => setMobileOpen(false)}
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all
-                  ${isActive ? 'text-white bg-dark-600' : 'text-dark-200 hover:text-white hover:bg-dark-700'}`
+                  ${isActive ? 'text-amber-brand bg-amber-brand/10' : 'text-surface-400 hover:text-surface-200 hover:bg-surface-800'}`
                 }
               >
                 <span>{item.icon}</span>

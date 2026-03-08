@@ -7,7 +7,7 @@ import {
 } from 'date-fns';
 import type { TradeData } from '../types/trade.types';
 import Loading from './Loading';
-import { glassLightClass, gradientTextClass } from '../utils/styles';
+import { cardClass } from '../utils/styles';
 
 const TradeCalendar: React.FC = () => {
   const navigate = useNavigate();
@@ -44,27 +44,27 @@ const TradeCalendar: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight">
-            Trading <span className={gradientTextClass}>Calendar</span>
+          <h1 className="text-3xl font-extrabold text-surface-100 tracking-tight">
+            Trading <span className="text-amber-brand">Calendar</span>
           </h1>
-          <p className="text-dark-300 text-sm mt-1">Visualizing your daily performance</p>
+          <p className="text-surface-500 text-sm mt-1">Visualizing your daily performance</p>
         </div>
 
-        <div className={`flex items-center gap-1 ${glassLightClass} p-1.5 rounded-2xl`}>
-          <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="w-9 h-9 rounded-xl hover:bg-dark-600 text-dark-300 hover:text-white transition-all flex items-center justify-center cursor-pointer font-bold">←</button>
-          <span className="font-bold text-white min-w-[150px] text-center text-sm uppercase tracking-wider">
+        <div className="flex items-center gap-1 bg-surface-900 border border-surface-800 p-1.5 rounded-xl">
+          <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="w-9 h-9 rounded-lg hover:bg-surface-800 text-surface-500 hover:text-surface-200 transition-all flex items-center justify-center cursor-pointer font-bold">←</button>
+          <span className="font-bold text-surface-200 min-w-[150px] text-center text-sm">
             {format(currentMonth, 'MMMM yyyy')}
           </span>
-          <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="w-9 h-9 rounded-xl hover:bg-dark-600 text-dark-300 hover:text-white transition-all flex items-center justify-center cursor-pointer font-bold">→</button>
+          <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="w-9 h-9 rounded-lg hover:bg-surface-800 text-surface-500 hover:text-surface-200 transition-all flex items-center justify-center cursor-pointer font-bold">→</button>
         </div>
       </div>
 
       {/* Calendar Grid */}
-      <div className={`${glassLightClass} rounded-2xl overflow-hidden`}>
+      <div className={`${cardClass} overflow-hidden`}>
         {/* Weekday Headers */}
-        <div className="grid grid-cols-7 border-b border-dark-600">
+        <div className="grid grid-cols-7 border-b border-surface-800">
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-            <div key={day} className="py-3 text-center text-[9px] font-bold text-dark-400 uppercase tracking-[0.2em]">{day}</div>
+            <div key={day} className="py-3.5 text-center text-[10px] font-semibold text-surface-600 uppercase tracking-wider">{day}</div>
           ))}
         </div>
 
@@ -79,14 +79,14 @@ const TradeCalendar: React.FC = () => {
               <div
                 key={idx}
                 onClick={() => isCurrentMonth && handleDayClick(day)}
-                className={`h-28 sm:h-32 md:h-36 border-r border-b border-dark-700/50 p-2 transition-all relative group
-                  ${!isCurrentMonth ? 'opacity-15 cursor-default' : 'cursor-pointer hover:bg-dark-700/30'}
+                className={`h-28 sm:h-32 md:h-36 border-r border-b border-surface-800/50 p-2.5 transition-all relative group
+                  ${!isCurrentMonth ? 'opacity-15 cursor-default' : 'cursor-pointer hover:bg-surface-800/40'}
                 `}
               >
                 <div className={`text-xs font-bold mb-1 w-7 h-7 flex items-center justify-center rounded-lg transition-all
                   ${isToday
-                    ? 'bg-gradient-to-br from-accent-blue to-accent-purple text-white shadow-lg'
-                    : 'text-dark-400 group-hover:text-dark-200'}
+                    ? 'bg-amber-brand text-surface-950'
+                    : 'text-surface-600 group-hover:text-surface-400'}
                 `}>
                   {format(day, 'd')}
                 </div>
@@ -97,8 +97,8 @@ const TradeCalendar: React.FC = () => {
                       ? 'bg-profit/10 border border-profit/10'
                       : 'bg-loss/10 border border-loss/10'}
                   `}>
-                    <div className="text-[8px] font-bold uppercase opacity-60 text-dark-200">{stats.count} trades</div>
-                    <div className={`text-xs sm:text-sm font-black ${stats.pnl >= 0 ? 'text-profit' : 'text-loss'}`}>
+                    <div className="text-[8px] font-bold uppercase opacity-60 text-surface-300">{stats.count} trades</div>
+                    <div className={`text-xs sm:text-sm font-extrabold ${stats.pnl >= 0 ? 'text-profit' : 'text-loss'}`}>
                       {stats.pnl >= 0 ? `+$${stats.pnl.toFixed(0)}` : `-$${Math.abs(stats.pnl).toFixed(0)}`}
                     </div>
                   </div>

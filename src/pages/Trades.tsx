@@ -6,7 +6,7 @@ import api from '../api/axios';
 import Loading from './Loading';
 import AddTrade from './AddTrade';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { btnPrimaryClass, glassLightClass, gradientTextClass } from '../utils/styles';
+import { btnPrimaryClass, cardClass } from '../utils/styles';
 
 const TradesComponent: React.FC = () => {
   const [trades, setTrades] = useState<TradeData[]>([]);
@@ -73,12 +73,12 @@ const TradesComponent: React.FC = () => {
       {/* Header */}
       <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
         <div>
-          <h1 className='text-2xl font-black text-white tracking-tight'>
-            My <span className={gradientTextClass}>Trades</span>
+          <h1 className='text-2xl font-extrabold text-surface-100 tracking-tight'>
+            My <span className="text-amber-brand">Trades</span>
           </h1>
           {filterDate && (
-            <p className='text-sm text-dark-300 mt-1'>
-              Filtering: <span className='font-bold text-accent-blue'>{filterDate}</span>
+            <p className='text-sm text-surface-500 mt-1'>
+              Filtering: <span className='font-bold text-amber-brand'>{filterDate}</span>
             </p>
           )}
         </div>
@@ -95,16 +95,16 @@ const TradesComponent: React.FC = () => {
 
       {/* Filter Banner */}
       {filterDate && (
-        <div className={`flex items-center justify-between ${glassLightClass} p-4 rounded-2xl`}>
+        <div className={`flex items-center justify-between ${cardClass} p-4`}>
           <div className="flex items-center gap-3">
-            <span className="flex h-2 w-2 rounded-full bg-accent-blue animate-pulse"></span>
-            <span className="text-sm font-medium text-dark-200">
+            <span className="flex h-2 w-2 rounded-full bg-amber-brand animate-pulse"></span>
+            <span className="text-sm font-medium text-surface-400">
               Showing {displayedTrades.length} trades for {filterDate}
             </span>
           </div>
           <button
             onClick={() => navigate('/trades')}
-            className="text-xs font-bold text-accent-blue hover:bg-dark-700 px-3 py-2 rounded-lg transition-all cursor-pointer"
+            className="text-xs font-bold text-amber-brand hover:bg-surface-800 px-3 py-2 rounded-lg transition-all cursor-pointer"
           >
             Clear ✕
           </button>
@@ -126,10 +126,10 @@ const TradesComponent: React.FC = () => {
             />
           ))
         ) : (
-          <div className={`col-span-full ${glassLightClass} rounded-2xl p-16 text-center`}>
-            <div className="text-4xl mb-4 opacity-30">📊</div>
-            <p className="text-dark-300 font-medium">No trades found</p>
-            <p className="text-dark-500 text-sm mt-1">Click "New Trade" to add your first trade</p>
+          <div className={`col-span-full ${cardClass} p-16 text-center`}>
+            <div className="text-4xl mb-4 opacity-20">📊</div>
+            <p className="text-surface-500 font-medium">No trades found</p>
+            <p className="text-surface-600 text-sm mt-1">Click "New Trade" to add your first trade</p>
           </div>
         )}
       </div>

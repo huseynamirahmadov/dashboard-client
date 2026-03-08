@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api/axios';
 import type { TradeData } from '../types/trade.types';
-import { inputClass, btnPrimaryClass, glassClass, labelClass } from '../utils/styles';
+import { inputClass, btnPrimaryClass, labelClass, cardClass } from '../utils/styles';
 
 interface Props {
   isOpen: boolean;
@@ -88,12 +88,12 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
   };
 
   return (
-    <div onClick={(e) => e.target === e.currentTarget && onClose()} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fade-in">
-      <div className={`animate-fade-in-up ${glassClass} w-full max-w-4xl max-h-[95vh] overflow-y-auto rounded-2xl shadow-2xl border border-dark-600`}>
+    <div onClick={(e) => e.target === e.currentTarget && onClose()} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in mt-[238px]">
+      <div className={`animate-fade-in-up bg-surface-900 border border-surface-800 w-full max-w-4xl max-h-[95vh] overflow-y-auto rounded-2xl shadow-2xl`}>
         {/* Header */}
-        <div className={`sticky top-0 ${glassClass} px-8 py-5 border-b border-dark-600 flex justify-between items-center z-10`}>
-          <h2 className="text-xl font-black text-white">{editTrade ? "Edit Trade" : "New Trade"}</h2>
-          <button onClick={onClose} className="w-8 h-8 rounded-lg bg-dark-700 hover:bg-loss/20 hover:text-loss flex items-center justify-center transition-all cursor-pointer text-dark-300">&times;</button>
+        <div className="sticky top-0 bg-surface-900 border-b border-surface-800 px-8 py-5 flex justify-between items-center z-10">
+          <h2 className="text-xl font-extrabold text-surface-100">{editTrade ? "Edit Trade" : "New Trade"}</h2>
+          <button onClick={onClose} className="w-9 h-9 rounded-lg bg-surface-800 hover:bg-red-brand/15 hover:text-red-brand flex items-center justify-center transition-all cursor-pointer text-surface-500 text-lg">&times;</button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
@@ -147,22 +147,22 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
           </div>
 
           {/* Screenshots */}
-          <div className="pt-4 border-t border-dark-700">
+          <div className="pt-5 border-t border-surface-800">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-sm font-bold text-white">Screenshots</h3>
-              <button type="button" onClick={addFileInput} className="text-[10px] font-bold text-accent-blue bg-accent-blue/10 hover:bg-accent-blue/20 px-4 py-2 rounded-lg transition-all cursor-pointer uppercase tracking-wider">
+              <h3 className="text-sm font-bold text-surface-200">Screenshots</h3>
+              <button type="button" onClick={addFileInput} className="text-xs font-bold text-amber-brand bg-amber-brand/10 hover:bg-amber-brand/20 px-4 py-2 rounded-lg transition-all cursor-pointer uppercase tracking-wider">
                 + Add Image
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {fileInputs.map((file, index) => (
                 <div key={index}>
-                  <label className="flex items-center justify-center w-full h-28 border-2 border-dashed border-dark-600 rounded-xl cursor-pointer hover:border-accent-blue/40 hover:bg-dark-800/50 transition-all">
+                  <label className="flex items-center justify-center w-full h-28 border-2 border-dashed border-surface-700 rounded-xl cursor-pointer hover:border-amber-brand/40 hover:bg-surface-800/50 transition-all">
                     <div className="flex flex-col items-center gap-2 text-center px-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-dark-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-surface-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
-                      <span className="text-[10px] font-medium text-dark-400">
+                      <span className="text-[11px] font-medium text-surface-600">
                         {file ? file.name : "Click to upload"}
                       </span>
                     </div>
@@ -175,10 +175,10 @@ const AddTrade: React.FC<Props> = ({ isOpen, onClose, onSuccess, editTrade, onUp
 
           {/* Actions */}
           <div className="flex gap-3 pt-4">
-            <button type="button" onClick={onClose} className="flex-1 bg-dark-700 hover:bg-dark-600 text-dark-200 py-4 rounded-xl font-bold transition-all cursor-pointer">
+            <button type="button" onClick={onClose} className="flex-1 bg-surface-800 hover:bg-surface-700 text-surface-400 py-3.5 rounded-xl font-bold transition-all cursor-pointer">
               Cancel
             </button>
-            <button type="submit" className={`${btnPrimaryClass} flex-[2]`}>
+            <button type="submit" className={`${btnPrimaryClass} flex-[2] !py-3.5`}>
               {editTrade ? 'Update Trade' : 'Save Trade'}
             </button>
           </div>
